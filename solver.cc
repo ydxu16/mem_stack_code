@@ -31,7 +31,7 @@ int Complex_Mutiply(const fftw_complex x, const fftw_complex y, fftw_complex res
 class N_membrane{
     
 public:
-    N_membrane(double dt_, int Nstep_, int num_layers_,int Nx_, int Ny_, double Dx_,double Dy_,double a_, double b_,double w_,double M_,double eta_M_,double eta_S_, double lamda_,double gamma_,double thick_sol_);
+    N_membrane(double dt_, int Nstep_, int num_layers_,int Nx_, int Ny_, double Dx_,double Dy_,double a_, double b_,double w_,double M_,double eta_M_,double eta_S_, double lamda_,double gamma_,double thick_sol_, double ave_psi);
     ~N_membrane();
 
     const double dt; //time step size
@@ -69,7 +69,7 @@ public:
 
     };
 
-N_membrane::N_membrane(double dt_, int Nstep_, int num_layers_,int Nx_, int Ny_, double Dx_,double Dy_,double a_, double b_,double w_,double M_,double eta_M_,double eta_S_, double lamda_,double gamma_,double thick_sol_):dt(dt_), Nstep(Nstep_), num_layers(num_layers_)
+N_membrane::N_membrane(double dt_, int Nstep_, int num_layers_,int Nx_, int Ny_, double Dx_,double Dy_,double a_, double b_,double w_,double M_,double eta_M_,double eta_S_, double lamda_,double gamma_,double thick_sol_, double ave_psi):dt(dt_), Nstep(Nstep_), num_layers(num_layers_)
     {
         
         // dt = dt_; //time step size Nstep = Nstep_; //total time steps
@@ -518,11 +518,11 @@ int N_membrane::cal_uM_y_hat_ima(){
 
 int main(int argc, char **argv) {
 	//check for the correct number of input arguments
-	if (argc != 5) {
+	/*if (argc != 5) {
 		fprintf(stderr, "There should be 3 arguments, dt (double), Nstep (integer) and Number of Layers(int) \n");
 		fprintf(stderr, "Usage: %s dt Nstep \n", argv[0]);
 		return 1;
-	}
+	}*/
 	
     double dt_ = atof(argv[1]);
     int Nstep_ = atoi(argv[2]);
@@ -547,7 +547,7 @@ int main(int argc, char **argv) {
 
 //double lambda = 0.07;
 	    double thick_sol_ = 1;
-	    N_membrane *system = new N_membrane(dt_, Nstep_, num_layers_, Nx,Ny, Dx,Dy,a,b,w,M,eta_M_,eta_S_,lambda,0,thick_sol_);
+	    N_membrane *system = new N_membrane(dt_, Nstep_, num_layers_, Nx,Ny, Dx,Dy,a,b,w,M,eta_M_,eta_S_,lambda,0,thick_sol_, ave_psi);
 	    /*N_membrane(dt_, Nstep_, num_layers_, Nx_, Ny_, Dx_, Dy_, a_, b_, w_, M_, eta_M_, eta_S_,
 		       lamda_, gamma_, thick_sol_):dt(dt_), Nstep(Nstep_), num_layers(num_layers_)*/
 		
