@@ -115,7 +115,7 @@ N_membrane::N_membrane(double dt_, int Nstep_, int num_layers_,int Nx_, int Ny_,
              //   layer_i->init_psi_circle(32, 32, 10);
                 srand(time(NULL));
                 //layer_i->init_psi_Sin(3, 10);
-		layer_i->init_psi_Gauss(ave_psi, 0.05);
+		layer_i->init_psi_Gauss(0.4, 0.05);
                 sleep(2);
                 vector_layer.push_back( layer_i );
             printf("average value is %lf \n", cal_ave(layer_i->psi_));
@@ -529,23 +529,19 @@ int main(int argc, char **argv) {
     int num_layers_ = atoi(argv[3]);
     double lambda = atof(argv[4]);
 	    cout << lambda<<" is lambda"<<endl;
-    int Nx = atoi(argv[5]);
-    int Ny = atoi(argv[6]);
-    int Nanalysis = Nstep_ / 20;
-    double Dx = 0.5;
-    double Dy = 0.5;
+            int Nx = 128;
+	    int Ny = 128;
+	    int Nprint = Nstep_ / 80;
+	    int Nanalysis = Nstep_ / 20;
+	    double Dx = 0.5;
+	    double Dy = 0.5;
 	    int a = 1;
 	    int b = 1;
 	    int w = 1;
 	    int M = 1;
-     double eta_M_ = atof(argv[7]);
-     double eta_S_ = atof(argv[8]);
-     int N_print_gap = atof(argv[9]);	
-     int Nprint = Nstep_ / N_print_gap;
-     double ave_psi = atof(argv[10]);  
-     cout<< dt_<< " " <<Nstep_<< " "<<num_layers_<< " "<<lambda<< " "<<Nx<<" "<<Ny<<" "<<eta_M_<<" "<<eta_S_<<" "<<N_print_gap<<" "<<ave_psi<<" "<< endl;
-
-//double lambda = 0.07;
+	    double eta_M_ = 1;
+	    double eta_S_ = 1;
+	    //double lambda = 0.07;
 	    double thick_sol_ = 1;
 	    N_membrane *system = new N_membrane(dt_, Nstep_, num_layers_, Nx,Ny, Dx,Dy,a,b,w,M,eta_M_,eta_S_,lambda,0,thick_sol_);
 	    /*N_membrane(dt_, Nstep_, num_layers_, Nx_, Ny_, Dx_, Dy_, a_, b_, w_, M_, eta_M_, eta_S_,
