@@ -584,12 +584,12 @@ int main(int argc, char **argv) {
         sprintf(filename4, "./data/membrane_%u_file_length", p);
         sprintf(filename5, "./data/membrane_%u_file_record", p);
         
-        if ( (fp_length = fopen(filename4,"w")) == NULL) {
+        if ( (fp_length = fopen(filename4,"a")) == NULL) {
             printf("can't open file\n");
             exit(0);
         }
         
-        if ( (fp_record = fopen(filename5,"w")) == NULL) {
+        if ( (fp_record = fopen(filename5,"a")) == NULL) {
             printf("can't open file\n");
             exit(0);
         }
@@ -600,17 +600,18 @@ int main(int argc, char **argv) {
     }
     //time
     //clock_t tStart = clock();
-//debug    
+//debug
+/*
 double* test = new double[5];
 test[0] = 0.1; test[1] = 0.2; test[2] = 0.3; test[3] = 0.4;test[4] = 0.5;
 double* ans = system->reverse_tridiag(5, test, 1, 2, 3);
 for (int i = 0; i < 5; i++){ 
 cout<<"answer is "<< ans[i]<<endl;
-}
+}*/
 
+	clock_t tStart = clock();
 		for (int n = 0; n <= system->Nstep; n++) {
             
-
             
             /*
             if (n == 0){
@@ -775,25 +776,28 @@ char record_filename4[50] = "./uMy_hat_ima_part_using_reverse_matrix_at_0";
 			if ((n % Nprint) == 0) {
                 for ( vector<OneLayer*>::size_type p = 0; p < system->vector_layer.size(); p++) {
               
-                    sprintf(filename1, "./data/file_membrane_%u_psi_%d", p, n);
-                    sprintf(filename2, "./data/file_membrane_%u_uM_x_%d", p, n);
-                    sprintf(filename3, "./data/file_membrane_%u_uM_y_%d", p, n);
+                    sprintf(filename1, "./data/file_membrane_%u_psi", p);
+                    sprintf(filename2, "./data/file_membrane_%u_uM_x", p);
+                    sprintf(filename3, "./data/file_membrane_%u_uM_y", p);
 			    //create files
-                    if ((fp_psi = fopen(filename1,"w")) == NULL) {
+                    if ((fp_psi = fopen(filename1,"a")) == NULL) {
                         printf("cannot open file\n");
                         exit(0);
                     }
                     
-                    if ((fp_uM_x = fopen(filename2,"w")) == NULL) {
+                    if ((fp_uM_x = fopen(filename2,"a")) == NULL) {
                         printf("cannot open file\n");
                         exit(0);
                     }
 				
-                    if ((fp_uM_y = fopen(filename3,"w")) == NULL) {
+                    if ((fp_uM_y = fopen(filename3,"a")) == NULL) {
                         printf("cannot open file\n");
                         exit(0);
                     }
-          
+                    //print out the time step
+                    fprintf(fp_psi, "t, %d\n",n);
+		    fprintf(fp_uM_x, "t, %d\n",n);
+  		    fprintf(fp_uM_y, "t, %d\n",n);
                     //output data
                     for (int i = 0; i < Nx; i++) {
                         for (int j = 0; j < Ny; j++) {
@@ -802,6 +806,9 @@ char record_filename4[50] = "./uMy_hat_ima_part_using_reverse_matrix_at_0";
                             fprintf(fp_uM_y, "%lf\n", system->vector_layer[p]->uMy_->val_[i][j]);
                             }
                         }
+			
+                    double time = (double)(clock()-tStart)/(double)CLOCKS_PER_SEC;
+ 		    cout << "Time for each step is "<< time<<endl;
                     //close the file
                     fclose(fp_psi);
                     fclose(fp_uM_x);

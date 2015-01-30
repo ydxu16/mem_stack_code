@@ -12,7 +12,7 @@ eta_S = 1
 N_print_gap = 80
 ave_psi = 0.3
 st=  "#!/bin/bash \n#parallel job using 1 nodes and 4 CPU cores and runs for 1 hours(Max).\n#PBS -l nodes=1:ppn=4,walltime=24:00:00\n#PBS -o out -e err \n#sends mail if the process abors, when it begins, and when it ends(abe) \n#PBS -m abe \nmodule load intel/11.1/64/11.1.075 \ncd $PBS_O_WORKDIR \n#numprocs=`echo ${PBS_NODEFILE} | wc -l` \n./solver " + str(dt) + " "+str(Nstep) +" "+ str(num_layers) +" " + str(coupling) +" "+ str(Nx) +" "+ str(Ny) +" "+ str(eta_M) +" "+ str(eta_S) +" "+ str(N_print_gap) +" "+ str(ave_psi)
-file = open('slurm.cmd', 'w')
+file = open('submit.cmd', 'w')
 file.write(st)
 file.close()
-call("qsub slurm.cmd", shell = True) 
+call("qsub submit.cmd", shell = True) 
